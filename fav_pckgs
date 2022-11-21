@@ -1,0 +1,13 @@
+library(tidyverse)
+library(ggplot2)
+
+library(janitor)
+library(skimr)
+library(SimDesign)
+library(readxl)
+library(forcats)
+library(lubridate)
+library(scales)
+library(directlabels)
+library(rvest)
+library(reprex)
