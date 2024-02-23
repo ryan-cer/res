@@ -1,0 +1,67 @@
+## Online Sales Tracking over Time ####
+
+
+library(lubridate)
+library(scales)
+##Load and Clean ####
+sale <- read.csv("R/DataSets/online_retail.csv")
+sale <- clean_names(sale)
+
+## Explore ####
+sale %>% 
+  count(stock_code)
+
+sale %>% 
+  group_by(description) %>% 
+  summarise(count=n()) %>% 
+  arrange(-count)
+
+sale %>% 
+  group_by(stock_code) %>% 
+  summarise(count=n()) %>% 
+  arrange(-count)
+
+## Get Top 10 Sales by SKU
+top10 <- sale %>% 
+  group_by(stock_code) %>% 
+  summarise(count=n()) %>% 
+  arrange(-count) %>% 
+  head(10) %>% 
+  pull(stock_code)
+
+## Filter by top10 and makes Data frame
+sell <- sale %>% 
+  filter(stock_code %in% top10)
+
+## Analyze ####
+sell %>%
+  filter(quantity > 1) %>% 
+  ggplot(aes(invoice_date,quantity,color = stock_code)) +
+  geom_line(linewidth = 1.5) 
+
+sell %>% 
+  arrange(quantity)
+
+sell %>% 
+  filter(quantity > 1) %>% 
+  group_by(stock_code, mdy(invoice_date)) %>% 
+  ggplot(aes(invoice_date,quantity)) +
+  geom_line(aes(color = stock_code)) 
+
+sell <- sell %>% 
+  mutate(invoice_date = format(as.Date(invoice_date)))
+
+sell %>% 
+  mutate(invoice_date2 = dmy_hm(invoice_date)) %>% 
+  filter(invoice_date2 > '2011-04-01',
+        quantity > 1 & quantity < 1000) %>% 
+  mutate(month = floor_date(invoice_date2, 'week',week_start = getOption("lubridate.week.start", 7))) %>% 
+  group_by(stock_code,month) %>% 
+  summarise(total_sales = sum(quantity)) %>% 
+  ggplot(aes(ymd(month),total_sales,color = stock_code)) +
+  geom_smooth(se=F) +
+  scale_y_continuous(n.breaks = 15) +
+  labs(title = "90 Day Sales",
+       subtitle = "2011",
+       x = "Month",
+       y = "Sales")
