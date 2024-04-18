@@ -1,0 +1,110 @@
+<div class="body">
+  <div class="cont">
+    <div class="a">
+      <div class="b">
+        <img class="desk-img"src="https://picsum.photos/300">
+        <img class="mobile-img" src="https://www.gstatic.com/webp/gallery/1.jpg" >
+      </div>
+      <div class="c">
+        <h2> Hello </h2>
+        <p> How are you doing! </p>
+      </div>
+    </div>
+    <div class="d">
+      <div class="e">
+        <img class="desk-img"src="https://picsum.photos/300">
+        <img class="mobile-img" src="https://www.gstatic.com/webp/gallery/1.jpg" >
+      </div>
+      <div class="f">
+        <h2> Hello </h2>
+        <p> How are you doing! </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+.body {
+  width: 100%;
+  height: 100vh;
+  background-color: grey;
+}
+
+.cont {
+  background-color: #444;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px,1fr))
+}
+
+.a, .d {
+  background-color: #eee;
+  display: grid;
+  grid-template-columns: 1fr 35%;
+}
+
+.b, .e {
+  grid-column: 1 / 3 ;
+  grid-row: 1;
+}
+
+.b img, .e img {
+  width: 100%;
+}
+
+.c, .f {
+  grid-column: 2;
+  grid-row: 1;
+  padding-top:50%;
+  
+}
+
+.d {
+  background-color: #4df
+}
+
+
+.mobile-img {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+    .a, .d {
+    background-color: #fff;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+    .b, .e {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .b img, .e img {
+    width: 100%;
+  }
+
+  .c, .f {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    padding: 0;
+  }
+
+    .c h2, .f h2{
+    margin: 0px;
+  }
+  
+  .body {
+    background-color: pink !important;
+  }
+  
+    .desk-img {
+    display: none;
+  }
+
+  .mobile-img {
+    display: block;
+  }
+  
+  
+}
